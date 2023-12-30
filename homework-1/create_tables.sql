@@ -23,3 +23,7 @@ CREATE TABLE orders
 	order_date date NOT NULL,
 	ship_city varchar(100) NOT NULL
 );
+
+DROP TABLE customers
+DROP TABLE employees
+DROP TABLE orders
