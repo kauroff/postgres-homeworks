@@ -9,12 +9,14 @@ CREATE TABLE employees
 	notes text NOT NULL
 );
 
+
 CREATE TABLE customers_
 (
 	customer_id varchar(5) PRIMARY KEY,
 	company_name varchar(100) NOT NULL,
 	contact_name varchar(100) NOT NULL
 );
+
 
 CREATE TABLE orders
 (
