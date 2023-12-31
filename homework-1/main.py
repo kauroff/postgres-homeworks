@@ -8,14 +8,14 @@ def function_of_reading(file_name):  # решил делать через фун
 
 
 def function_of_appending(data, name_table):
+    conn = psycopg2.connect(  # настраиваем соединение
+        host="localhost",
+        database="north",
+        user="postgres",
+        password="12345"
+    )
+    conn.autocommit = True  # автокоммит, чтобы не коммитить после каждого добавления данных
     try:  # оборачиваем в блок try
-        conn = psycopg2.connect(  # настраиваем соединение
-            host="localhost",
-            database="north",
-            user="postgres",
-            password="12345"
-        )
-        conn.autocommit = True  # автокоммит, чтобы не коммитить после каждого добавления данных
         with conn.cursor() as cur:
             list_of_data = data.split('\n')  # беру данные из csv файла и сплитую их, чтобы разбить
             if name_table == 'customers':  # делаю проверку на название таблицы, тк в разных таблицах разное кол-во столбцов
