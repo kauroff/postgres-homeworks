@@ -19,7 +19,7 @@ CREATE TABLE orders
 (
 	order_id serial PRIMARY KEY,
 	customer_id varchar(10) REFERENCES customers(customer_id),
-	employee_id smallint NOT NULL REFERENCES employees(employee_id),
+	employee_id smallint NOT NULL,
 	order_date date NOT NULL,
 	ship_city varchar(100) NOT NULL
 );
@@ -27,3 +27,7 @@ CREATE TABLE orders
 DROP TABLE customers
 DROP TABLE employees
 DROP TABLE orders
+
+SELECT * FROM orders
+SELECT * FROM employees
+SELECT * FROM customers

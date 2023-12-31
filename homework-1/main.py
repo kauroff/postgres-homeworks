@@ -19,33 +19,29 @@ def function_of_appending(data, name_table):
         with conn.cursor() as cur:
             list_of_data = data.split('\n')  # беру данные из csv файла и сплитую их, чтобы разбить
             if name_table == 'customers':  # делаю проверку на название таблицы, тк в разных таблицах разное кол-во столбцов
-                for element in list_of_data:
-                    if element.split(',') == 3:  # проверка на последнюю пустую строку
+                for element in list_of_data[1:]: # со второго элемента, тк первый - название столбцов
+                    element.replace(', ', '~') # тк в БД встречаются запятые, чтобы они не участвовали в разбиении по запятым, заменим их
+                    if len(element.split(',')) == 3:  # проверка на последнюю пустую строку
+                        element.replace('~', ', ') # возвращаем запятые обратно
                         id, company, contact = element.split(',')  # распаковка строки на данные в кортеж
                         cur.execute(f"INSERT INTO {name_table} VALUES (%s, %s, %s)",
                                     (id, company, contact))  # добавление данных в таблицу
-                    else:
-                        continue
             elif name_table == 'employees':  # такая же функция для каждой БД
-                for element in list_of_data:
-                    if element.split(',') == 5:
-                        id, name, surname, title, bday, notes = element.split(',')
+                for element in list_of_data[1:]:
+                    element.replace(', ', '~')
+                    if len(element.split(',')) == 6:
+                        element.replace('~', ', ')
+                        id_, name, surname, title, bday, notes = element.split(',')
                         cur.execute(f"INSERT INTO {name_table} VALUES (%s, %s, %s, %s, %s, %s)",
-                                    (id, name, surname, title, bday, notes))
-                    else:
-                        continue
+                                    (id_, name, surname, title, bday, notes))
             elif name_table == 'orders':
-                for element in list_of_data:
-                    if element.split(',') == 6:
+                for element in list_of_data[1:]:
+                    element.replace(', ', ', ')
+                    if len(element.split(',')) == 5:
+                        element.replace('~', '~')
                         order, customer, employee, date, city = element.split(',')
                         cur.execute(f"INSERT INTO {name_table} VALUES (%s, %s, %s, %s, %s)",
                                     (order, customer, employee, date, city))
-                    else:
-                        continue
-            cur.execute(f"SELECT * FROM {name_table}")  # вывод данных на экран
-            rows = cur.fetchall()
-            for row in rows:
-                print(row)
     finally:
         conn.close()  # закрытие соединения
 
