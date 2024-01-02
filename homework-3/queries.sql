@@ -26,3 +26,7 @@ WHERE NOT EXISTS
 
 -- 4. уникальные названия продуктов, которых заказано ровно 10 единиц (количество заказанных единиц см в колонке quantity табл order_details)
 -- Этот запрос написать именно с использованием подзапроса.
+SELECT product_name
+FROM products
+WHERE product_id = ANY (SELECT product_id FROM order_details WHERE quantity = 10)
+-- Комментарий: как работает последнее я хз, в занятии не было оговорено про оператор ANY
