@@ -15,10 +15,14 @@ WHERE customers.city = 'London' AND employees.city = 'London' AND shippers.compa
 SELECT product_name, units_in_stock, suppliers.contact_name, suppliers.phone
 FROM products
 JOIN suppliers USING(supplier_id)
-WHERE discounted = 0 AND units_in_stock < 25
+JOIN categories USING(category_id)
+WHERE discontinued = 0 AND units_in_stock < 25 AND categories.category_name in ('Dairy Products', 'Condiments')
 
 -- 3. Список компаний заказчиков (company_name из табл customers), не сделавших ни одного заказа
-
+SELECT company_name
+FROM customers
+WHERE NOT EXISTS
+(SELECT customer_id FROM orders WHERE orders.customer_id = customers.customer_id)
 
 -- 4. уникальные названия продуктов, которых заказано ровно 10 единиц (количество заказанных единиц см в колонке quantity табл order_details)
 -- Этот запрос написать именно с использованием подзапроса.
